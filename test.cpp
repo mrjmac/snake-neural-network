@@ -10,14 +10,12 @@ int main()
     clock_t now = clock();
    
     // setup game state
-    bool alive = true;
-    bool food = false;
+    bool alive = true, food = false;
     char dir = 'u';
-    int size = 3;
-    int hx = 10, hy = 10;
+    int hx = 10, hy = 10, lhx = 0, lhy = 0, size = 3;
 
     // place snake head
-    board[10][10] = size - 1;
+    board[10][10] = size;
 
     // fill in walls
     for (int i = 0; i < 20; i++)
@@ -37,57 +35,100 @@ int main()
 
     } while (board[fx][fy] != 0);
 
-    board[5][10] = -2;    
+    board[fx][fy] = -2;  
+
+    char temp = 'w';  
 
     // main game loop
     while (alive)
     {
         if ((clock() - now) / CLOCKS_PER_SEC > .4)
         {
-            
-            /*
-            // handle dir swapping
-            if (getch() == '\033')
+            // print board
+            for (int i = 0; i < (int) board.size(); i++)
             {
-                getch();
-
-                switch(getch())
+                for (int j = 0; j < (int) board[0].size(); j++)
                 {
-                    case 'A':
+                    int curr = board[i][j];
+
+                    if (curr == 0)
                     {
-                        if (dir != 'd')
-                        {
-                            dir = 'u';
-                        }
-                        break;
+                        cout << " ";
                     }
-                    case 'B':
+                    else if (curr == -1)
                     {
-                        if (dir != 'u')
-                        {
-                            dir = 'd';
-                        }
-                        break;
+                        cout << "X";
                     }
-                    case 'C':
+                    else if (curr == -2)
                     {
-                        if (dir != 'l')
-                        {
-                            dir = 'r';
-                        }
-                        break;
+                        cout << "F";
                     }
-                    case 'D':
+                    else if (curr == -3)
                     {
-                        if (dir != 'r')
+                        cout << "O";
+
+                        board[i][j] = 0;
+                    }
+                    else
+                    {
+                        if (!food)
                         {
-                            dir = 'l';
+                            board[i][j]--;
                         }
-                        break;
+
+                        if (board[i][j] == 0)
+                        {
+                            lhx = j;
+                            lhy = i;
+                        }
+                        cout << "O";
                     }
                 }
+                cout << "\n";
             }
-            */
+
+            cout << "\n";
+
+            food = false;
+
+            cin >> temp;
+            
+            switch(temp)
+            {
+                case 'w':
+                {
+                    if (dir != 'd')
+                    {
+                        dir = 'u';
+                    }
+                    break;
+                }
+                case 's':
+                {
+                    if (dir != 'u')
+                    {
+                        dir = 'd';
+                    }
+                    break;
+                }
+                case 'd':
+                {
+                    if (dir != 'l')
+                    {
+                        dir = 'r';
+                    }
+                    break;
+                }
+                case 'a':
+                {
+                    if (dir != 'r')
+                    {
+                        dir = 'l';
+                    }
+                    break;
+                }
+            }
+            
 
             if (dir == 'r')
             {
@@ -121,7 +162,7 @@ int main()
 
                 board[fx][fy] = -2;
             }
-            else if (board[hy][hx] == -1)
+            else if (board[hy][hx] != 0)
             {
                 alive = false;
                 break;
@@ -131,47 +172,12 @@ int main()
             if (food)
             {
                 board[hy][hx] = size - 1;
+                board[lhy][lhx] = -3;
             }
             else 
             {
                 board[hy][hx] = size;
             }
-            
-
-            // print board
-            for (int i = 0; i < (int) board.size(); i++)
-            {
-                for (int j = 0; j < (int) board[0].size(); j++)
-                {
-                    int curr = board[i][j];
-
-                    if (curr == 0)
-                    {
-                        cout << " ";
-                    }
-                    else if (curr == -1)
-                    {
-                        cout << "X";
-                    }
-                    else if (curr == -2)
-                    {
-                        cout << "F";
-                    }
-                    else
-                    {
-                        if (!food)
-                        {
-                            board[i][j]--;
-                        }
-                        cout << "O";
-                    }
-                }
-                cout << "\n";
-            }
-
-            food = false;
-
-            cout << "\n";
 
             now = clock();
         }
