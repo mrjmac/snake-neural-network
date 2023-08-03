@@ -1,71 +1,67 @@
-#include <bits/stdc++.h>
-#include <curses.h>
+import java.util.Scanner;
 
-using namespace std;
-
-int main()
-{
-    // set up board and timer
-    vector<vector<int>> board(20, vector<int>(20));
-    clock_t now = clock();
-   
-    // setup game state
-    bool alive = true, food = false;
-    char dir = 'u';
-    int hx = 10, hy = 10, lhx = 0, lhy = 0, size = 3;
-
-    // place snake head
-    board[10][10] = size;
-
-    // fill in walls
-    for (int i = 0; i < 20; i++)
+public class snake {
+    public static void main(String[] args) throws InterruptedException
     {
-        board[i][0] = -1;
-        board[0][i] = -1;
-        board[i][19] = -1;
-        board[19][i] = -1;
+        game();
     }
-    
-    // place first food
-    int fx, fy;
-    do
+
+    public static int[] game() throws InterruptedException
     {
-        fx = rand() % 18 + 1;
-        fy = rand() % 18 + 1;
+        Scanner input = new Scanner(System.in);
 
-    } while (board[fx][fy] != 0);
+        int[][] board = new int[20][20];
 
-    board[fx][fy] = -2;  
+        boolean alive = true, food = false;
+        char dir = 'u';
 
-    char temp = 'w';  
+        int hx = 10, hy = 10, lhx = 0, lhy = 0, size = 3, reason = 0;
 
-    // main game loop
-    while (alive)
-    {
-        if ((clock() - now) / CLOCKS_PER_SEC > .4)
+        board[10][10] = size;
+
+        for (int i = 0; i < 20; i++)
         {
-            // print board
-            for (int i = 0; i < (int) board.size(); i++)
+            board[i][0] = -1;
+            board[0][i] = -1;
+            board[i][19] = -1;
+            board[19][i] = -1;
+        }
+        
+        int fx, fy;
+        do
+        {
+            fx = (int) Math.floor(Math.random() * 18 + 1);
+            fy = (int) Math.floor(Math.random() * 18 + 1);
+
+        } while (board[fx][fy] != 0);
+
+        board[fx][fy] = -2;  
+
+        char temp = 'w';  
+
+        while (alive)
+        {
+            for (int i = 0; i < (int) board.length; i++)
             {
-                for (int j = 0; j < (int) board[0].size(); j++)
+                for (int j = 0; j < (int) board[0].length; j++)
                 {
                     int curr = board[i][j];
 
                     if (curr == 0)
                     {
-                        cout << " ";
+                        System.out.print(" ");
                     }
                     else if (curr == -1)
                     {
-                        cout << "X";
+                        System.out.print("X");
                     }
                     else if (curr == -2)
                     {
-                        cout << "F";
+                        System.out.print("F");
                     }
                     else if (curr == -3)
                     {
-                        cout << "O";
+                        System.out.print("O");
 
                         board[i][j] = 0;
                     }
@@ -81,18 +77,17 @@ int main()
                             lhx = j;
                             lhy = i;
                         }
-                        cout << "O";
+                        System.out.print("O");
                     }
                 }
-                cout << "\n";
+                System.out.print("\n");
             }
 
-            cout << "\n";
+            System.out.print("\n");
 
             food = false;
-
-            cin >> temp;
-            
+            temp = input.nextLine().charAt(0);
+                
             switch(temp)
             {
                 case 'w':
@@ -128,7 +123,7 @@ int main()
                     break;
                 }
             }
-            
+                
 
             if (dir == 'r')
             {
@@ -147,16 +142,16 @@ int main()
                 hy += 1;
             }
 
-            
+                
             if (board[hy][hx] == -2)
             {
                 size += 1;
                 food = true;
-                
+                    
                 do
                 {
-                    fx = rand() % 18 + 1;
-                    fy = rand() % 18 + 1;
+                    fx = (int) Math.floor(Math.random() * 18 + 1);
+                    fy = (int) Math.floor(Math.random() * 18 + 1);
 
                 } while (board[fx][fy] != 0);
 
@@ -165,9 +160,9 @@ int main()
             else if (board[hy][hx] != 0)
             {
                 alive = false;
-                break;
+                reason = board[hy][hx];
             }
-            
+                
 
             if (food)
             {
@@ -179,8 +174,9 @@ int main()
                 board[hy][hx] = size;
             }
 
-            now = clock();
+            Thread.sleep(400);
         }
-    }
 
+        return new int[] {size, reason};
+    }
 }
