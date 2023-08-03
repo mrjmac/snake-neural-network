@@ -142,7 +142,7 @@ public class matrix
         return temp;
     }
 
-    public matrix oneDtoTwoD(double[] other)
+    public static matrix oneDtoTwoD(double[] other)
     {
         matrix temp = new matrix(other.length, 1);
 

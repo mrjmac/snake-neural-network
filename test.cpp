@@ -3,31 +3,6 @@
 
 using namespace std;
 
-class matrix 
-{
-    private:
-        vector<vector<int>> data;
-        int rows, cols;
-    
-    matrix(int r, int c)
-    {
-        data = vector<vector<int>>(20, vector<int>(20));
-        rows = r;
-        cols = c;
-
-        for (int i = 0; i < rows; i++)
-        {
-            for (int j = 0; j < cols; j++)
-            {
-                data[i][j] = rand() % 3 - 1;
-            }
-        }
-    }
-
-    
-};
-
-
 int main()
 {
     // set up board and timer
