@@ -1,10 +1,6 @@
 import java.util.Scanner;
 
 public class snake {
-    public static void main(String[] args) throws InterruptedException
-    {
-        game();
-    }
 
     public static int[] game() throws InterruptedException
     {
