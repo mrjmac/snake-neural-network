@@ -2,7 +2,7 @@ public class snake {
 
     private int size;
     private int[][] board;
-    private int hx, hy, lhx, lhy, fx, fy;
+    private int hx, hy, lhx, lhy, fx, fy, steps, stepsLeft;
 
     private boolean alive;
     private boolean food;
@@ -25,6 +25,8 @@ public class snake {
         lhx = 0;
         lhy = 0;
         size = 3;
+        steps = 0;
+        stepsLeft = 100;
 
         board[10][10] = size;
 
@@ -227,6 +229,7 @@ public class snake {
         if (board[hy][hx] == -2)
         {
             size += 1;
+            stepsLeft += 50;
             food = true;
                     
             do
@@ -242,6 +245,13 @@ public class snake {
         {
             alive = false;
         }
+        else if (stepsLeft == 0)
+        {
+            alive = false;
+        }
+
+        steps += 1;
+        stepsLeft -= 1;
                 
 
         if (food)
@@ -262,7 +272,17 @@ public class snake {
 
     public void findFitness()
     {
-        fitness = Math.pow(size, 2);
+        if (size < 10)
+        {
+            fitness = Math.pow(steps, 2) * Math.pow(size, 2);
+        }
+        else
+        {
+            fitness = Math.pow(steps, 2);
+            fitness *= Math.pow(2, 10);
+            fitness *= (size - 9);
+        }
+        //fitness = Math.pow(size, 2);
     }
 
     public double getFitness()

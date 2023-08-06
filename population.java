@@ -4,8 +4,9 @@ public class population {
 
     private int generation;
     private int best;
-    private int currBest;
     private int bestSnakeInd;
+
+    private int allTimeBest;
 
     private snake bestSnake;
 
@@ -14,6 +15,7 @@ public class population {
         generation = 1;
         best = 3;
         bestSnakeInd = 1;
+        allTimeBest = 0;
 
         bestSnake = null;
 
@@ -44,11 +46,11 @@ public class population {
         {
             if (curr.getAlive())
             {
-                return true;
+                return false;
             }
         }
 
-        return false;
+        return true;
     }
 
     public void fitness()
@@ -78,7 +80,7 @@ public class population {
             snake p2 = findSnake();
 
             snake child = p1.crossover(p2);
-            child.mutate(0.01);
+            child.mutate(0.15);
 
             newPop[i] = child;
         }
@@ -147,7 +149,22 @@ public class population {
             i++;
         }
 
-        currBest = max;
+        best = max;
         bestSnakeInd = maxInd;
+
+        if (best > allTimeBest)
+        {
+            allTimeBest = best;
+        }
+    }
+
+    public int getGen()
+    {
+        return generation;
+    }
+
+    public int getAllTimeBest()
+    {
+        return allTimeBest;
     }
 }

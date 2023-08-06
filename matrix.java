@@ -1,12 +1,11 @@
 public class matrix
 {
-    
     private double[][] data;
     private int rows, cols;
 
     public matrix(int r, int c)
     {
-        data = new double[rows][cols];
+        data = new double[r][c];
 
         rows = r;
         cols = c;
@@ -120,11 +119,11 @@ public class matrix
 
     public matrix dot(matrix other)
     {
-        matrix temp = new matrix(rows, cols);
+        matrix temp = new matrix(rows, other.getCols());
 
         for (int i = 0; i < rows; i++)
         {
-            for (int j = 0; j < cols; j++)
+            for (int j = 0; j < other.getCols(); j++)
             {
                 double sum = 0;
 
