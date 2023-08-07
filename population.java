@@ -65,6 +65,16 @@ public class population {
     {
         fitness();
         naturalSelection();
+        mutate();
+        
+    }
+
+    public void mutate()
+    {
+        for (snake curr : pop)
+        {
+            curr.mutate(0.1);
+        }
     }
 
     public void naturalSelection()
@@ -166,5 +176,10 @@ public class population {
     public int getAllTimeBest()
     {
         return allTimeBest;
+    }
+
+    public int getBest()
+    {
+        return best;
     }
 }

@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class snake {
 
     private int size;
@@ -47,10 +49,10 @@ public class snake {
 
         board[fx][fy] = -2;  
 
-        nn = new neuralnet(16, 12, 4);
+        nn = new neuralnet(24, 18, 4);
         fitness = 0;
 
-        input = new double[16];
+        input = new double[24];
         output = new double[4];
     }
 
@@ -58,36 +60,44 @@ public class snake {
     {
         // do brain stuff and set maxind
         double[] temp = searchDir(1, 0);
-        input[0] = temp[0];
-        input[1] = temp[1];
+        input[0] = temp[0]; // wall
+        input[1] = temp[1]; // food
+        input[2] = temp[2]; // body
 
         temp = searchDir(0, 1);
-        input[2] = temp[0];
-        input[3] = temp[1];
+        input[3] = temp[0];
+        input[4] = temp[1];
+        input[5] = temp[2];
 
         temp = searchDir(1, 1);
-        input[4] = temp[0];
-        input[5] = temp[1];
-
-        temp = searchDir(-1, 0);
         input[6] = temp[0];
         input[7] = temp[1];
+        input[8] = temp[2];
+
+        temp = searchDir(-1, 0);
+        input[9] = temp[0];
+        input[10] = temp[1];
+        input[11] = temp[2];
 
         temp = searchDir(0, -1);
-        input[8] = temp[0];
-        input[9] = temp[1];
-
-        temp = searchDir(-1, -1);
-        input[10] = temp[0];
-        input[11] = temp[1];
-
-        temp = searchDir(1, -1);
         input[12] = temp[0];
         input[13] = temp[1];
+        input[14] = temp[2];
+
+        temp = searchDir(-1, -1);
+        input[15] = temp[0];
+        input[16] = temp[1];
+        input[17] = temp[2];
+
+        temp = searchDir(1, -1);
+        input[18] = temp[0];
+        input[19] = temp[1];
+        input[20] = temp[2];
 
         temp = searchDir(-1, 1);
-        input[14] = temp[0];
-        input[15] = temp[1];
+        input[21] = temp[0];
+        input[22] = temp[1];
+        input[23] = temp[2];
 
         output = nn.output(input);
 
@@ -274,7 +284,7 @@ public class snake {
     {
         if (size < 10)
         {
-            fitness = Math.pow(steps, 2) * Math.pow(size, 2);
+            fitness = Math.pow(steps, 2) * Math.pow(size, 3);
         }
         else
         {
@@ -327,7 +337,7 @@ public class snake {
         int currY = hy + y;
         int distance = 1;
 
-        double[] results = {0.0, 0.0};
+        double[] results = {0.0, 0.0, 0.0};
 
         while (!finished && validPos(currX, currY))
         {
@@ -335,11 +345,15 @@ public class snake {
             {
                 results[1] = 1;
             }
-            else if (board[currX][currY] != 0)
+            else if (board[currX][currY] == -1)
             {
                 // compress to 0-1
                 results[0] = 1.0 / distance;
                 finished = true;
+            }
+            else if (board[currX][currY] != 0)
+            {
+                results[2] = 1.0 / distance;
             }
 
             distance += 1;
@@ -369,8 +383,5 @@ public class snake {
 
         return clone;
     }
-
-    
-
     
 }
