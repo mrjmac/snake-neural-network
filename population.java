@@ -64,16 +64,14 @@ public class population {
     public void geneticAlgorithim()
     {
         fitness();
-        naturalSelection();
-        mutate();
-        
+        naturalSelection();        
     }
 
     public void mutate()
     {
         for (snake curr : pop)
         {
-            curr.mutate(0.1);
+            curr.mutate(0.20);
         }
     }
 
@@ -90,12 +88,15 @@ public class population {
             snake p2 = findSnake();
 
             snake child = p1.crossover(p2);
-            child.mutate(0.15);
+            child.mutate(0.20);
 
             newPop[i] = child;
         }
 
-        pop = newPop.clone();
+        for (int i = 0; i < pop.length; i++)
+        {
+            pop[i] = newPop[i];
+        }
         generation += 1;
         best = 3;
     }

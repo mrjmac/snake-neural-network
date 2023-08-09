@@ -28,7 +28,7 @@ public class snake {
         lhy = 0;
         size = 3;
         steps = 0;
-        stepsLeft = 100;
+        stepsLeft = 50;
 
         board[10][10] = size;
 
@@ -45,11 +45,11 @@ public class snake {
             fx = (int) Math.floor(Math.random() * 18 + 1);
             fy = (int) Math.floor(Math.random() * 18 + 1);
 
-        } while (board[fx][fy] != 0);
+        } while (board[fx][fy] != 0 && (fx == 10 || fy == 10));
 
         board[fx][fy] = -2;  
 
-        nn = new neuralnet(24, 18, 4);
+        nn = new neuralnet(24, 8, 4);
         fitness = 0;
 
         input = new double[24];
@@ -239,7 +239,7 @@ public class snake {
         if (board[hy][hx] == -2)
         {
             size += 1;
-            stepsLeft += 50;
+            stepsLeft = 50;
             food = true;
                     
             do
@@ -282,17 +282,7 @@ public class snake {
 
     public void findFitness()
     {
-        if (size < 10)
-        {
-            fitness = Math.pow(steps, 2) * Math.pow(size, 3);
-        }
-        else
-        {
-            fitness = Math.pow(steps, 2);
-            fitness *= Math.pow(2, 10);
-            fitness *= (size - 9);
-        }
-        //fitness = Math.pow(size, 2);
+        fitness = (2 * size) + steps;
     }
 
     public double getFitness()

@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class test {
     public static void main(String[] args)
     {
-        population test = new population(5000);
+        population test = new population(10000);
         //snake debug = new snake();
 
         while (true)
@@ -14,7 +14,7 @@ public class test {
                 test.update();
                 System.out.println("allTimeBest :: " + test.getAllTimeBest());
                 //System.out.println("currBest :: " + test.getBest());
-                System.out.println("generation :: " + test.getGen());
+                //System.out.println("generation :: " + test.getGen());
             }
             else
             {
