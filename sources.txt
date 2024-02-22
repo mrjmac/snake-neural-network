@@ -1,5 +1,0 @@
-matrix.java
-neuralnet.java
-snake.java
-population.java
-test.java
